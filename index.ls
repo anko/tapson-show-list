@@ -34,7 +34,8 @@ i = 0
 id-to-line = {}
 
 show-plan = ({id, expected}) ->
-  expected ||= blessed.parse-tags "{grey-fg}unspecified{/}"
+  expected = if expected then blessed.escape expected
+             else blessed.parse-tags "{grey-fg}unspecified{/}"
   list.add expected
   id-to-line[id] = i
   ++i
