@@ -17,6 +17,7 @@
     "blessed": "chjj/blessed#7e0104ef425ac32ae81fefb6f3f2c84f6293b5d5",
     "highland": "^2.5.1",
     "prelude-ls": "^1.1.2",
-    "ttys": "0.0.3"
+    "ttys": "0.0.3",
+    "uuid": "^2.0.1"
   }
 }

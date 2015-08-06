@@ -1,6 +1,6 @@
 # reads tapson in, shows all pending tests and outcomes
 
-require! <[ highland blessed ttys ]>
+require! <[ highland blessed ttys uuid ]>
 { reverse } = require \prelude-ls
 
 screen = blessed.screen smart-CSR : yes input : ttys.stdin
@@ -75,8 +75,14 @@ highland process.stdin
     obj = JSON.parse it
     { ok, id, expected, actual } = obj
 
-    if ok? then show-result obj
-    else show-plan obj
+    if id?
+      if ok? then show-result obj
+      else show-plan obj
+    else # must be an immediate test then
+         # (one that has both the plan and result ready at the same time)
+      obj.id = uuid!
+      show-plan obj
+      show-result obj
   .done ->
     for id, still-waiting of pending
       if still-waiting

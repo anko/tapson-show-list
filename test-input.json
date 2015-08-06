@@ -15,3 +15,5 @@
 {"id": "4", "ok":false, "actual": "it failed"}
 {"id": "-1", "ok": false, "actual": "indeed nope"}
 {"id": "-2", "ok": true, "actual": "indeed alright"}
+{"ok": true, "expected": "immediate test succeed", "actual": "works"}
+{"ok": false, "expected": "immediate test fail", "actual": "nah"}
