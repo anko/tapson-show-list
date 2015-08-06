@@ -1,11 +1,11 @@
 {
-  "name": "tapson-dots",
+  "name": "tapson-show-list",
   "version": "1.0.0",
-  "description": "",
+  "description": "tapson test result pretty-printer",
   "main": "index.js",
   "scripts": {
-    "prepublish": "lsc -c index.ls",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prepublish": "make",
+    "test": "echo \"Expect alternating successes and failures. (Hit Return to continue)\" && read -s && make test"
   },
   "author": "Anko <an@cyan.io> (http://an.cyan.io)",
   "license": "ISC",
