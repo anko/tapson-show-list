@@ -1,3 +1,4 @@
+{"id": "-999", "expected": "fails on EOF (no result encountered)"}
 {"id": "0"}
 {"id": "1"}
 {"id": "0", "ok":true}

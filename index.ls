@@ -33,7 +33,10 @@ screen.render!
 i = 0
 id-to-line = {}
 
+pending = {}
+
 show-plan = ({id, expected}) ->
+  pending[id] = true
   expected = if expected then blessed.escape expected
              else blessed.parse-tags "{grey-fg}unspecified{/}"
   list.add expected
@@ -42,6 +45,7 @@ show-plan = ({id, expected}) ->
   screen.render!
 
 show-result = ({id, ok, actual}) ->
+  pending[id] = false
   colour = if ok then \green else \red
   actual-with-tags =
     if actual   then "{#{colour}-fg}" + blessed.escape actual + "{/#{colour}-fg}"
@@ -64,10 +68,16 @@ show-result = ({id, ok, actual}) ->
   screen.render!
 
 # stdin is tapson lines
-highland process.stdin .split! .each ->
-  return if it is ""
-  obj = JSON.parse it
-  { ok, id, expected, actual } = obj
+highland process.stdin
+  .split!
+  .each ->
+    return if it is ""
+    obj = JSON.parse it
+    { ok, id, expected, actual } = obj
 
-  if ok? then show-result obj
-  else show-plan obj
+    if ok? then show-result obj
+    else show-plan obj
+  .done ->
+    for id, still-waiting of pending
+      if still-waiting
+        show-result { id, ok : false }
