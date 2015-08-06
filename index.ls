@@ -49,8 +49,8 @@ show-result = ({id, ok, actual}) ->
   colour = if ok then \green else \red
   actual-with-tags =
     if actual   then "{#{colour}-fg}" + blessed.escape actual + "{/#{colour}-fg}"
-    else if ok  then "{#007700-fg}ok{/}"
-    else             "{#770000-fg}fail{/}"
+    else if ok  then "{#007700-fg}ok{/}"   # dark green 'ok'
+    else             "{#770000-fg}fail{/}" # dark red 'fail'
 
 
   actual = blessed.parse-tags actual-with-tags
