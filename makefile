@@ -1,9 +1,9 @@
 export PATH := node_modules/.bin:$(PATH)
 
 index.js: index.ls
-	echo "#!/usr/bin/env node" > $@
-	lsc -cp $< >> $@
-	chmod +x $@
+	@echo "#!/usr/bin/env node" > $@
+	@lsc -cp $< >> $@
+	@chmod +x $@
 
 clean:
 	rm -f index.js
