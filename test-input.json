@@ -1,0 +1,12 @@
+{"id": "0"}
+{"id": "0", "ok":true}
+{"id": "1"}
+{"id": "1", "ok":false}
+{"id": "2", "expected": "expectation 1"}
+{"id": "2", "ok":true}
+{"id": "3", "expected": "expectation 2"}
+{"id": "3", "ok":false}
+{"id": "4", "expected": "expectation 3"}
+{"id": "4", "ok":true, "actual": "it worked"}
+{"id": "4", "expected": "expectation 4"}
+{"id": "4", "ok":false, "actual": "it failed"}

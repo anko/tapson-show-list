@@ -8,7 +8,7 @@ index.js: index.ls
 clean:
 	rm -f index.js
 
-run: index.js
-	~/code/eslisp/test.ls | ./$<
+test: index.js test-input.json
+	./index.js < test-input.json
 
-.PHONY: clean
+.PHONY: clean test

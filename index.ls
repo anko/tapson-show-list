@@ -39,13 +39,17 @@ highland process.stdin .split! .each ->
   obj = JSON.parse it
   if obj.ok?
 
-    actual = obj.actual or (if obj.ok then \ok else \fail )
     colour = if obj.ok then \green else \red
+    actual-with-tags =
+      if obj.actual   then "{#{colour}-fg}" + blessed.escape obj.actual + "{/#{colour}-fg}"
+      else if obj.ok  then "{#007700-fg}ok{/}"
+      else                 "{#770000-fg}fail{/}"
 
+
+    actual = blessed.parse-tags actual-with-tags
     line = id-to-line[obj.id]
 
-    text-to-add = blessed.parse-tags ("{#{colour}-fg}" + blessed.escape actual + "{/#{colour}-fg}")
-    [ first-line, ...other-lines ] = text-to-add .split "\n"
+    [ first-line, ...other-lines ] = actual .split "\n"
     list.set-line do
       line
        (list.get-line line) + ": " + first-line
@@ -56,7 +60,8 @@ highland process.stdin .split! .each ->
         ++i
 
   else
-    list.add obj.expected
+    expected = obj.expected || blessed.parse-tags "{grey-fg}unspecified{/}"
+    list.add expected
     id-to-line[obj.id] = i
     ++i
   screen.render!
