@@ -37,7 +37,7 @@ pending = {}
 
 show-plan = ({id, expected}) ->
   pending[id] = true
-  expected = if expected then blessed.escape expected
+  expected = if expected then blessed.parse-tags "{yellow-fg}#{blessed.escape expected}{/}"
              else blessed.parse-tags "{grey-fg}unspecified{/}"
   list.add expected
   id-to-line[id] = i
@@ -48,7 +48,7 @@ show-result = ({id, ok, actual}) ->
   pending[id] = false
   colour = if ok then \green else \red
   actual-with-tags =
-    if actual   then "{#{colour}-fg}" + blessed.escape actual + "{/#{colour}-fg}"
+    if actual   then "{#{colour}-fg}" + blessed.escape actual + "{/}"
     else if ok  then "{#007700-fg}ok{/}"   # dark green 'ok'
     else             "{#770000-fg}fail{/}" # dark red 'fail'
 
@@ -56,10 +56,13 @@ show-result = ({id, ok, actual}) ->
   actual = blessed.parse-tags actual-with-tags
   line = id-to-line[id]
 
+  expected-text = (list.get-line line)
+                  |> -> "{#{colour}-fg}#{it |> blessed.escape |> blessed.strip-tags}{/}"
+
   [ first-line, ...other-lines ] = actual .split "\n"
   list.set-line do
     line
-     (list.get-line line) + ": " + first-line
+      expected-text + ": " + first-line
 
   if other-lines.length
     for line-text in reverse other-lines
