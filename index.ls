@@ -65,6 +65,11 @@ show-result = ({id, ok, actual}) ->
     for line-text in reverse other-lines
       list.insert-line line + 1, line-text
       ++i
+
+  for id, that-line of id-to-line
+    if that-line > line
+      id-to-line[id] += other-lines.length
+
   screen.render!
 
 # stdin is tapson lines
