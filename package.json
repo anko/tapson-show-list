@@ -9,6 +9,9 @@
   },
   "author": "Anko <an@cyan.io> (http://an.cyan.io)",
   "license": "ISC",
+  "files": [
+    "index.js"
+  ],
   "bin": {
     "tapson-show-list": "./index.js"
   },
