@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "prepublish": "make",
-    "test": "echo \"Expect alternating successes and failures. (Hit Return to continue)\" && read -s && make test"
+    "test": "echo \"Expect alternating 4 successes and 5 failures. (Hit Return to continue)\" && read -s && make test"
   },
   "author": "Anko <an@cyan.io> (http://an.cyan.io)",
   "license": "ISC",
