@@ -1,6 +1,6 @@
 {
   "name": "tapson-show-list",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "tapson test result pretty-printer",
   "main": "index.js",
   "scripts": {
