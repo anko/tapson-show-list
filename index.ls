@@ -106,6 +106,9 @@ highland process.stdin
       else show-plan obj
     else # must be an immediate test then
          # (one that has both the plan and result ready at the same time)
+      switch ok
+      | true  => ++num-ok
+      | false => ++num-fail
       obj.id = uuid!
       show-plan obj
       show-result obj
