@@ -44,6 +44,10 @@ id-to-line = {}
 
 pending = {}
 
+# Total stats, for showing once we're done
+num-ok = 0
+num-fail = 0
+
 show-plan = ({id, expected}) ->
   pending[id] = true
   expected = if expected then blessed.parse-tags "{yellow-fg}#{blessed.escape expected}{/}"
@@ -94,7 +98,11 @@ highland process.stdin
     { ok, id, expected, actual } = obj
 
     if id?
-      if ok? then show-result obj
+      if ok?
+        switch ok
+        | true  => ++num-ok
+        | false => ++num-fail
+        show-result obj
       else show-plan obj
     else # must be an immediate test then
          # (one that has both the plan and result ready at the same time)
@@ -104,8 +112,14 @@ highland process.stdin
   .done ->
     for id, still-waiting of pending
       if still-waiting
+        ++num-fail
         show-result { id, ok : false }
+
+    done-text =
+      if num-fail then "done (#num-ok ok; {white-fg}#num-fail failed{/})"
+                  else "done (#num-ok ok)"
+
     status-text
-      ..style.bg = \green
-      ..set-text "finished"
+      ..style.bg = if num-fail then \red else \green
+      ..set-content done-text
     screen.render!
