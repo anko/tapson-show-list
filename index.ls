@@ -12,7 +12,7 @@ list = blessed.log do
   invert-selected : false
   keys : true
   vi : true
-  top : 0
+  top : 1
   left : 0
   width : \100%
   height : \100%
@@ -20,6 +20,15 @@ list = blessed.log do
   tags : true
 
 screen.append list
+
+status-text = blessed.text do
+  tags : yes
+  width : \100%
+  style : bg : \yellow fg : \black
+
+status-text.set-content "running"
+
+screen.append status-text
 
 list.on \mouse (button) ->
   switch button.action
@@ -96,3 +105,7 @@ highland process.stdin
     for id, still-waiting of pending
       if still-waiting
         show-result { id, ok : false }
+    status-text
+      ..style.bg = \green
+      ..set-text "finished"
+    screen.render!
