@@ -7,9 +7,31 @@ they finish (along with the `actual` message in a darker green or red).
 
 ![demonstration](demo.gif)
 
-Just pipe it tapson on stdin.
+Just pipe it tapson on `stdin`.
 
     yourTests | tapson-show-list
+
+If you want it to update whenever something changes, that's another tool's job.
+On Linux, a shell script with `inotifywait` works great:
+
+```sh
+# Stores test process ID
+PID=""
+
+# Wait for changes to input files
+inotifywait --quiet -m -e modify whatever-input-files |
+while read file; do
+
+    # Kill the old process
+    if [ ! -z "$PID" ]; then
+        kill "$PID"
+    fi
+
+    # Run process in background and save process id
+    your-tests | tapson-show-list &
+    PID=$!
+done;
+```
 
 ## License
 
